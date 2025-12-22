@@ -1,0 +1,9 @@
+venv/ 
+.pulintrc
+__pycache__/
+
+media/
+
+.vscode
+.idea
+

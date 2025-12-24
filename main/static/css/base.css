@@ -1,11 +1,24 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
+
 :root {
     --box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.363);
 }
 
+@font-face {
+    font-family: "dark";
+    src: url(../font/YesevaOne-Regular.ttf);
+}
+
+span {
+    font-family: "YesevaOne-Regular" sans-serif;
+    font-size: 48px;
+    line-height: 0;
+
+}
+
 body {
-    font-family: "Montserrat", sans-serif;
-    font-size: 18px; 
+    font-family: "Playfair Display SC", serif;
+    font-size: 20px; 
     padding: 0;
     margin: 0;
     overflow-x: hidden;
@@ -23,23 +36,23 @@ a {
 }
 
 h1 {
-    font-size: 48px;
+    font-size: 50px;
     color: #000;
 }
 
 h2 {
-    font-size: 48px;
+    font-size: 50px;
     font-weight: 600;
     color: #000;
 }
 
 h3 {
-    font-size: 36px;
+    font-size: 38px;
     color: #000;
 }
 
 h5 {
-    font-size: 18px;
+    font-size: 20px;
     margin: 0;
     font-weight: 600;
 }
@@ -527,11 +540,17 @@ h5 {
     border-radius: 20px;
     width: 20px;
     height: 20px;
-    font-size: 13px;
+    font-size: 15px;
     border: 1px solid #b10404;
-    text-align: center;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-left: 60px;
     margin-top: -30px;
+    line-height: 1;
+    padding-bottom: 4px;
+    padding-left: 1px;
 }
 
 .cart {

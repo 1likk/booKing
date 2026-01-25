@@ -1,13 +1,13 @@
 {% extends 'main/base.html' %}
 {% load static %}
 
-{% block title %}Login{% endblock title %}
+{% block title %}Войти{% endblock title %}
 
 {% block content%}
     <section class="login d-flex">
         <div class="login-title">
-            <h2>Login</h2>
-            <form action="{% url 'user:login' %}" method="post">
+            <h2>Страница входа</h2>
+            <form action="{% url 'users:login' %}" method="post">
                 {% csrf_token %}
                 {% if request.GET.next %}
                     <input type="hidden" name="next" value="{{ request.GET.next }}">
@@ -20,11 +20,17 @@
                 </div>
                 <div class="mb-3">
                     <label for="id_password" class="form-label form-style">Пароль</label>
-                    <input type="text" class="form-control form-style" 
+                    <input type="password" class="form-control form-style" 
                     name="password" id="id_password" placeholder="Пароль" required>
                 </div>
                 <button type="submit" class="login-btn form-style">Войти</button>
             </form>
+            <div class="reset-pass">
+                <hr>
+                <div class="mt-3">
+                    <a href="#">Забыли пароль?</a> | <a href="{% url 'users:registration'%}">Создать аккаунт</a>
+                </div>
+            </div>
         </div>
     </section>
 {% endblock content%}

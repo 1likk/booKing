@@ -1,5 +1,6 @@
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -9,10 +10,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-dft+uyy*&7fm1!obh2tlz!#%hiu8-(p^73(6w)mh*yf-n#s#&u'
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-dft+uyy*&7fm1!obh2tlz!#%hiu8-(p^73(6w)mh*yf-n#s#&u')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -134,9 +135,9 @@ CART_SESSION_ID = 'cart'
 
 AUTH_USER_MODEL = 'users.User'
 
-STRIPE_PUBLISHABLE_KEY = 'pk_test_51StqMPIk0pUQBMlS65JyGQOpNv65XP1wZzboTmUrHntwVhKkR4bHPbpLyowUKQigilhBwj3fBvs7YC6mEL3uuUL300ml2DoDGX'
-STRIPE_SECRET_KEY = 'sk_test_51StqMPIk0pUQBMlSJCZCUORB4k0ZSuiR8hclihKEizudjs9TNdWLR6gobmc6fkJmxF4SS3djVXRQH28pWjkcg9dC00tYC6kE13'
-STRIPE_API_VERSION = '2024-09-30.acacia'
-
-STRIPE_WEBHOOK_SECRET = 'whsec_4963262669f685933177dccaf00697e6d66cd59cb929f4cb228d56a4edc17bd9'
+# Stripe settings - используем переменные окружения для безопасности
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY', default='')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
+STRIPE_API_VERSION = config('STRIPE_API_VERSION', default='2024-09-30.acacia')
+STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
 

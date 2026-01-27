@@ -4,79 +4,115 @@
 {% block title %}Профиль{% endblock title %}
 
 {% block content %}
-    <div class="d-flex">
-        <div class="profile bg-white p-4 mb-4 mx-2 rounded">
-            <h2 class="mb-2">Профиль</h2>
-            <form action="{% url 'users:profile' %}" method="post" enctype="multipart/form-data"> 
+    <div class="profile-container">
+        <!-- Профиль пользователя -->
+        <div class="profile">
+            <h2>Профиль</h2>
+            <form class="profile-form" action="{% url 'users:profile' %}" method="post" enctype="multipart/form-data"> 
                 {% csrf_token %}
-                <div class="d-flex">
-                    <div class="box-1">
-                        <div class="col-md-12 mb-3">
-                            {% if user.image %}
-                                <img src="{{user.image.url}}" alt="Avatar" class="img-fluid" style="max-width: 150px; max-height: 150px;">
-                            {% else %}
-                                <img src="{% static 'img/noimage.png'%}" alt="Avatar" class="img-fluid" style="max-width: 150px; max-height: 150px;">
-                            {% endif %}
-                            <input type="file" class="form-control form-styleprofile mt-2" id="id_image" name="image" accept="image/">
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="id_first_name" class="form-label">Имя Пользователя</label>
-                            <input type="text" class="form-control form-styleprofile" id="id_first_name" 
-                            name="first_name" placeholder="Ваше Имя" value="{{ form.first_name.value }}"
-                            required>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="id_last_name" class="form-label">Фамилия Пользователя</label>
-                            <input type="text" class="form-control form-styleprofile" id="id_first_namlast_name" 
-                            name="last_name" placeholder="Ваше Фамилия" value="{{ form.last_name.value }}"
-                            required>
-                    </div>
-                    <div class="box-2">
-                        <div class="col-md-12 mb-3">
-                            <label for="id_username" class="form-label">Никнейм</label>
-                            <input type="text" class="form-control form-styleprofile" id="id_username" 
-                            name="username" placeholder="Ваш Никнейм" value="{{ form.username.value }}"
-                            required>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="id_email" class="form-label">Почта</label>
-                            <input type="email" class="form-control form-styleprofile" id="id_email" 
-                            name="email" placeholder="Ваша Почта" value="{{ form.email.value }}"
-                            required>
-                        </div>
+                
+                <!-- Аватар -->
+                <div class="profile-avatar">
+                    {% if user.image %}
+                        <img src="{{user.image.url}}" alt="Avatar" id="avatar-preview">
+                    {% else %}
+                        <img src="{% static 'img/noimage.png'%}" alt="Avatar" id="avatar-preview">
+                    {% endif %}
+                    <label for="id_image">Изменить фото</label>
+                    <input type="file" id="id_image" name="image" accept="image/*" onchange="previewImage(event)">
                 </div>
-                <div class="btns d-flex gap-4 mt-4">
+
+                <!-- Имя -->
+                <div class="profile-form-group">
+                    <label for="id_first_name">Имя</label>
+                    <input type="text" class="form-styleprofile" id="id_first_name" 
+                           name="first_name" placeholder="Ваше Имя" 
+                           value="{{ form.first_name.value|default:'' }}" required>
+                </div>
+
+                <!-- Фамилия -->
+                <div class="profile-form-group">
+                    <label for="id_last_name">Фамилия</label>
+                    <input type="text" class="form-styleprofile" id="id_last_name" 
+                           name="last_name" placeholder="Ваша Фамилия" 
+                           value="{{ form.last_name.value|default:'' }}" required>
+                </div>
+
+                <!-- Никнейм -->
+                <div class="profile-form-group">
+                    <label for="id_username">Никнейм</label>
+                    <input type="text" class="form-styleprofile" id="id_username" 
+                           name="username" placeholder="Ваш Никнейм" 
+                           value="{{ form.username.value|default:'' }}" required>
+                </div>
+
+                <!-- Email -->
+                <div class="profile-form-group">
+                    <label for="id_email">Почта</label>
+                    <input type="email" class="form-styleprofile" id="id_email" 
+                           name="email" placeholder="Ваша Почта" 
+                           value="{{ form.email.value|default:'' }}" required>
+                </div>
+
+                <!-- Кнопки -->
+                <div class="profile-buttons">
                     <button type="submit" class="profile-btn">Сохранить</button>
                     <a class="profile-btn" href="{% url 'users:logout'%}">Выйти</a>
                 </div>
             </form>
         </div>
-        {% comment %} Заказы {% endcomment %}
+
+        <!-- Заказы -->
         <div class="orders">
-            <h2 class="mb-2">Ваши Заказы</h2>
+            <h2>Ваши Заказы</h2>
             {% if orders %}
                 <div class="orderss">
                     {% for order in orders %}
                     <div class="order-cart">
-                        <h5 class="order-title">Номер заказа: {{ order.id }}</h5>
+                        <h5 class="order-title">Заказ #{{ order.id }} 
+                            {% if order.paid %}
+                                <span style="color: #28a745; font-size: 16px;">✓ Оплачен</span>
+                            {% else %}
+                                <span style="color: #ca1400; font-size: 16px;">○ Не оплачен</span>
+                            {% endif %}
+                        </h5>
                         <div class="order-desc">
                             {% for item in order.items.all %}
                             <div class="orders-carts">
-                                <span class="dadad">Имя: </span> <a class="" href="{% url 'main:product_detail' item.product.slug %}">{{ item.product.name }}</a>
+                                <span class="dadad">Товар:</span> 
+                                <a href="{% url 'main:product_detail' item.product.slug %}">{{ item.product.name }}</a>
                                 <br>
-                                <span class="dadad">Количество: </span> {{ item.quantity }}
-                                <span class="dadad">Цена: {{ item.price }}</span> <br>
-                                <span class="dadad">Дата: </span> {{ order.created }}
+                                <span class="dadad">Количество:</span> {{ item.quantity }} шт.
                                 <br>
+                                <span class="dadad">Цена:</span> {{ item.price }} ₸
+                                <br>
+                                <span class="dadad">Сумма:</span> {{ item.get_cost }} ₸
+                                <br>
+                                <span class="dadad">Дата заказа:</span> {{ order.created|date:"d.m.Y H:i" }}
                             </div>
                             {% endfor %}
+                            <div class="order-total">
+                                <span class="dadad">Итого:</span> 
+                                <span class="total-price">{{ order.get_total_cost }} ₸</span>
+                            </div>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
             {% else %}
-                <h4 class="notorders">У вас не было заказов.</h4>
+                <h4 class="notorders">У вас пока нет заказов</h4>
             {% endif %}
         </div>
     </div>
+
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const preview = document.getElementById('avatar-preview');
+                preview.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
 {% endblock content %}

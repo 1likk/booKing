@@ -8,7 +8,7 @@ from main.models import Product
 @csrf_exempt
 def stripe_webhook(request):
     payload = request.body
-    sig_header = request.META('HTTP_STRIPE_SIGNATURE')
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
     event = None
     try:
         event = stripe.Webhook.construct_event(

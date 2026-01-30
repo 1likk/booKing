@@ -24,6 +24,14 @@
                     name="password" id="id_password" placeholder="Пароль" required>
                 </div>
                 <button type="submit" class="login-btn form-style">Войти</button>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show mt-3" role="alert">
+                            {{message}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </form>
             <div class="reset-pass">
                 <hr>

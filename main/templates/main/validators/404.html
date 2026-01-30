@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Страница не найдена{% endblock title %}
+
+{% block content %}
+<section class="error-page d-flex justify-content-center align-items-center" style="min-height: 60vh;">
+    <div class="text-center">
+        <h1 style="font-size: 120px; font-weight: bold; color: #6c757d;">404</h1>
+        <h2 class="mb-3">Страница не найдена</h2>
+        <p class="text-muted mb-4">К сожалению, запрашиваемая страница не существует или была удалена.</p>
+        <a href="{% url 'main:popular_list' %}" class="btn btn-primary btn-lg">
+            <i class="bi bi-house-door"></i> Вернуться на главную
+        </a>
+    </div>
+</section>
+{% endblock content %}

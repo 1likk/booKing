@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=LINE+Seed+JP&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 :root {
     --box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.363);
@@ -17,7 +17,7 @@ span {
 }
 
 body {
-    font-family: "Playfair Display SC", serif;
+    font-family: "PT Serif", serif;
     font-size: 20px; 
     padding: 0;
     margin: 0;
@@ -516,13 +516,49 @@ h5 {
     font-weight: 600;
 }
 
+.product-list {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
 .pagination {
     display: flex;
-    position: absolute;
-    bottom: 0%;
-    left: 40%;
     gap: 12px;
     justify-content: center;
+    align-items: center;
+    margin: 40px 0 60px 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pagination li {
+    display: inline-block;
+}
+
+.pagination a {
+    display: block;
+    padding: 10px 16px;
+    background-color: #fff;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #000;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    min-width: 40px;
+    text-align: center;
+}
+
+.pagination a:hover {
+    background-color: #706351;
+    color: #fff;
+    border-color: #706351;
+}
+
+.pagination .disabled a {
+    opacity: 0.3;
+    pointer-events: none;
+    cursor: not-allowed;
 }
 
 .disabled {

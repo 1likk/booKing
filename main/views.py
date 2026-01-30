@@ -38,3 +38,10 @@ def product_list(request, category_slug=None):
                    'categories': categories,
                    'products': current_page, 
                    'slug_url': category_slug})
+
+def page_not_found(request, exception):
+    return render(request, 'main/validators/404.html', status=404)
+
+
+def server_error(request):
+    return render(request, 'main/validators/500.html', status=500)

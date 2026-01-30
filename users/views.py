@@ -7,21 +7,21 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Prefetch
 from orders.models import Order, OrderItem
 
-
 def login(request):
     if request.method == 'POST':
-        form = UserLoginForm(data=request.POST)
+        form = UserLoginForm(request, data=request.POST)
         if form.is_valid():
-            username = request.POST['username']
-            password = request.POST['password']
-            user = auth.authenticate(username=username, password=password)
-            if user:
-                auth.login(request, user)
-                return HttpResponseRedirect(reverse('main:popular_list'))
+            user = form.get_user()
+            auth.login(request, user)
+            return HttpResponseRedirect(reverse('main:popular_list'))
+        else:
+            # Форма невалидна неверный логин или пароль
+            messages.error(request, "Неверный логин или пароль")
     else:
         form = UserLoginForm()
     
     return render(request, 'users/login.html', {'form': form})
+        
 
 def registration(request):
     if request.method == 'POST':

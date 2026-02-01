@@ -1,0 +1,44 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Поиск: {{ query }}{% endblock title %}
+
+{% block content %}
+<div class="search-results">
+    <h2>Результаты поиска: "{{ query }}"</h2>
+    
+    {% if results %}
+        <p>Найдено: {{ results|length }} книг</p>
+        <div class="product-list">
+            <div class="items">
+                {% for product in results %}
+                    <div class="item">
+                        <a href="{{ product.get_absolute_url }}" class="home-card d-flex flex-column align-items-center text-center">
+                            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/noimage.png' %}{% endif %}" class="card-img" alt="">
+                            <h5 class="title-card">{{ product.name }}</h5>
+                            {% if product.discount %}
+                                <div class="card-discount">
+                                    <p class="line">₸ {{ product.price }}</p>
+                                    <p>₸ {{ product.sell_price }}</p>
+                                </div>
+                            {% else %}
+                                <p class="price">₸ {{ product.price }}</p>
+                            {% endif %}
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        {% if query and query|length < min_length %}
+            <p>Введите минимум {{ min_length }} символа для поиска </p>
+        {% elif query %}
+            <p>По запросу "{{ query }}" ничего не найдено.</p>
+        {% else %}
+            <p>Введите запрос для поиска.</p>
+        {% endif %}
+    {% endif %}
+    
+    <a href="{% url 'main:product_list' %}" class="add-to-cart-btn btn-primary mt-3">Вернуться в каталог</a>
+</div>
+{% endblock content %}

@@ -9,6 +9,7 @@ import logging
 from functools import wraps
 from django.http import HttpResponseServerError
 
+
 stripe.api_key = settings.STRIPE_SECRET_KEY 
 # stripe.api_version = settings.STRIPE_API_VERSION  # Используем версию по умолчанию
 logger = logging.getLogger('django')

@@ -5,6 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from cart.forms import CartAddProductForm
 
 def popular_list(request):
+    
     products = Product.objects.filter(available=True)[:3]
 
     return render(request, 

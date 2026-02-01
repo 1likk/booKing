@@ -3,11 +3,27 @@ from decimal import Decimal
 from django.urls import reverse
 from orders.models import Order
 from django.conf import settings
+from typing import Callable
 import stripe 
+import logging
+from functools import wraps
+from django.http import HttpResponseServerError
 
 stripe.api_key = settings.STRIPE_SECRET_KEY 
 # stripe.api_version = settings.STRIPE_API_VERSION  # Используем версию по умолчанию
+logger = logging.getLogger('django')
 
+def log_errors(func: Callable):
+    @wraps(func)
+    def wrapped(request, *args, **kwargs):
+        try:
+            return func(request, *args, **kwargs)
+        except Exception as e:
+            logger.error(f"Ошибка во views {func.__name__}: {e}", exc_info=True)
+            return HttpResponseServerError("На сайте произошла ошибка, мы уже ее чиним")
+    return wrapped
+
+@log_errors
 def payment_process(request):
     order_id = request.session.get('order_id', None)
     order = get_object_or_404(Order, id = order_id)
